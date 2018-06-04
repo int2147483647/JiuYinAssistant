@@ -1,25 +1,16 @@
 package com.fun.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.List;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import com.fun.util.ReadConfigurationFile;
 
 public class MainUI {
 
@@ -114,10 +105,6 @@ public class MainUI {
 		JPanel jp1 = new JPanel();
 		jp1.setSize(100, 100);
 		JComboBox<String> jComboBox = new JComboBox<String>();
-		List<String> schools = ReadConfigurationFile.getNeiGongSchool();
-		for(String school:schools) {
-			jComboBox.addItem(school);
-		}
 		jp1.add(jComboBox);
 	    frame.add(new JButton("西"),BorderLayout.EAST) ;  
 	    frame.add(new JButton("北"),BorderLayout.WEST) ;  
