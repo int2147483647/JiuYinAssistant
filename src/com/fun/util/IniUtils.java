@@ -72,7 +72,7 @@ public class IniUtils {
 			}
 		}
 		long t2 = System.nanoTime();
-		System.out.println(t2-t1);
+		//System.out.println(t2-t1);
 		return listResult;
 	}
 }
