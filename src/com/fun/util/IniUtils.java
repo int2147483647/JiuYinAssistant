@@ -19,12 +19,9 @@ import java.util.Map;
  */
 public class IniUtils {
 
-	// private static final String path =
-	// "E:\\out\\share.package.files\\res\\share\\modifypack\\proppack.ini";
-	// private static final String coding = "GBK";
 
 	public static Map<String, List<String>> read(String path, String code) {
-		long t1 = System.nanoTime();
+		//long t1 = System.nanoTime();
 		String str = "";
 		BufferedReader bufferedReader = null;
 		Map<String, List<String>> listResult = new HashMap<>();
@@ -71,7 +68,7 @@ public class IniUtils {
 				}
 			}
 		}
-		long t2 = System.nanoTime();
+		//long t2 = System.nanoTime();
 		//System.out.println(t2-t1);
 		return listResult;
 	}

@@ -1,22 +1,22 @@
 package com.fun.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -24,6 +24,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import com.fun.bean.NeiGong;
 import com.fun.tool.GetIniData;
+import com.fun.util.Constants;
 
 public class MainUI {
 
@@ -38,7 +39,7 @@ public class MainUI {
 	public static void main(String[] args) {
 		MainUI main=new MainUI();
         main.InitUI();
-        main.sss();
+        //main.sss();
 		//main.loadingUI();
 	}
 	public void sss() {
@@ -70,7 +71,6 @@ public class MainUI {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		jl1.setText("loading completed.");
@@ -79,7 +79,6 @@ public class MainUI {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		frame1.dispose();
@@ -92,23 +91,19 @@ public class MainUI {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         SwingUtilities.updateComponentTreeUI(frame);
 		//设置窗口名称
 		frame.setTitle("内功查询v0.1");
 		//设置窗口大小
-		frame.setSize(1020,800);
+		frame.setSize(550,800);
 		//设置窗口位于屏幕中央
 		frame.setLocationRelativeTo(null);
 		//参数为3时，表示关闭窗口则程序退出
@@ -123,24 +118,31 @@ public class MainUI {
 		//********************
 		JPanel jp1 = new JPanel();
 		JLabel l1 = new JLabel("选择内功：");
-		JComboBox<String> jComboBox = new JComboBox<String>();
+		@SuppressWarnings("unchecked")
+		JComboBox<String> jComboBox = new JAutoCompleteComboBox();
 		JLabel l2 = new JLabel("输入层数：");
-		JTextField t1 = new JTextField(3);
+		JTextField t1 = new JTextField(10);
 		JButton b1 = new JButton("查询");
 		JLabel jl1= new JLabel();
+		
+		jl1.setOpaque(true);
+		jl1.setBackground(Color.WHITE);
+		JLabel jl2= new JLabel();
+		jl2.setOpaque(true);
+		jl2.setBackground(Color.WHITE);
 		//面板
-		t1.setText("1");
+		
+		
 	    ItemListener itemListener = new ItemListener() {
 	      @Override
 	      public void itemStateChanged(ItemEvent arg0) {
-	        // TODO Auto-generated method stub
 	        if(ItemEvent.SELECTED == arg0.getStateChange()){
 	          String selectedItem = arg0.getItem().toString();
 	          int level = gData.getMaxLevel(map.get(selectedItem));
 	          t1.setText(level+"");
 	        }
 	        if(ItemEvent.DESELECTED == arg0.getStateChange()){
-	          String selectedItem = arg0.getItem().toString();
+	          //String selectedItem = arg0.getItem().toString();
 	        }
 	      }
 	      };
@@ -154,6 +156,9 @@ public class MainUI {
 			jComboBox.addItem(key);
 		}
 		jComboBox.addItemListener(itemListener);
+		
+		int level = gData.getMaxLevel(map.get(jComboBox.getSelectedItem().toString()));
+		t1.setText(level+"");
 		jp1.add(l1);
 		jp1.add(jComboBox);
 		jp1.add(l2);
@@ -171,8 +176,23 @@ public class MainUI {
 					return;
 				}
 				NeiGong ng = gData.getNeiGongInfo(map.get(jComboBox.getSelectedItem().toString()), Integer.parseInt(t1.getText()));
-				jl1.setText("<html>\n" + 
+				
+				String path = Constants.imgpath+"/"+ng.getPhoto();
+				path = path.replaceAll("/", "\\\\");
+				jl2.setIcon(new ImageIcon(path));
+				jl2.setText("<html>\n" + 
 						"	<table border=\"1\">\n" + 
+						"	<tr>\n" + 
+						"		<td>归属</td><td>"+ng.getSchool()+"</td>\n" + 
+						"	</tr>\n" + 
+						"	<tr>\n" + 
+						"		<td>属性</td><td>"+ng.getShuxing()+"</td>\n" + 
+						"	</tr>\n" + 
+						"	</table>\n" + 
+						"</html>");
+				//System.out.println(path);
+				jl1.setText("<html>\n" + 
+						"	<table border=\"1\" style=\"word-wrap:break-word; word-break:break-all;\" width=\"400px\"> \n" + 
 						"		<tr>\n" + 
 						"			<th colspan=\"2\">内功基础属性</th><th colspan=\"2\">装备发挥属性上限</th>\n" + 
 						"		</tr>\n" + 
@@ -209,9 +229,14 @@ public class MainUI {
 						"       <tr>\n" + 
 						"			<td colspan=\"4\">内功突破所需"+ng.getFaculty()+"修为</td>\n" + 
 						"		</tr>"+
+						"        <tr>\n" + 
+						"			<th colspan=\"4\">内功特效</th>\n" + 
+						"		</tr>\n" + 
+						"		<tr>\n" + 
+						"			<td colspan=\"4\" style=\"word-wrap: break-word;\">"+ng.getEffect()+"</td>\n" + 
+						"		</tr>\n" + 
 						"	</table>\n" + 
 						"</html>");
-				System.out.println(t1.getText());
 			}
 		});
 		jp1.add(b1);
@@ -221,17 +246,21 @@ public class MainUI {
 		JPanel jp2 = new JPanel();
 		jp2.setSize(100, 300);
 		jp2.setLayout(new FlowLayout(FlowLayout.LEFT));
+		jp2.add(jl2);
 		jp2.add(jl1);
+		jp2.setBackground(Color.WHITE);
+		jp1.setBackground(Color.WHITE);
 	    //frame.add(new JButton("EAST"),BorderLayout.EAST) ;  
 	    //frame.add(new JButton("WEST"),BorderLayout.WEST) ;  
-	    frame.add(new JButton("SOUTH"),BorderLayout.SOUTH) ;  
+	    //frame.add(new JButton("SOUTH"),BorderLayout.SOUTH) ;  
 	    frame.add(jp1,BorderLayout.NORTH) ;  
 	    frame.add(jp2,BorderLayout.CENTER) ;  
-
-		
+	    frame.getContentPane().setBackground(Color.WHITE);
+		frame.setResizable(false);
 
 		//设置窗口可见，此句一定要在窗口属性设置好了之后才能添加，不然无法正常显示
 		frame.setVisible(true);
 		
 	}
+	
 }

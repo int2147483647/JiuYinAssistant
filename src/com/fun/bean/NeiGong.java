@@ -1,5 +1,6 @@
 package com.fun.bean;
 
+
 public class NeiGong {
 
 	private String StrAdd;//臂力
@@ -7,10 +8,15 @@ public class NeiGong {
 	private String IngAdd;//内息
 	private String SpiAdd;//罡气
 	private String StaAdd;//体魄
+	@SuppressWarnings("unused")
 	private String StrAddE;//臂力
+	@SuppressWarnings("unused")
 	private String DexAddE;//身法
+	@SuppressWarnings("unused")
 	private String IngAddE;//内息
+	@SuppressWarnings("unused")
 	private String SpiAddE;//罡气
+	@SuppressWarnings("unused")
 	private String StaAddE;//体魄
 	private String HP;//
 	private String MP;//
@@ -18,6 +24,48 @@ public class NeiGong {
 	private String MagicDef;//
 	private String faculty;//内功突破所需修为
 	private String LimitPercent;
+	private String BuffId;
+	private String BufferLevel;
+	private String effect;
+	private String photo;
+	private String school;
+	private String shuxing;
+	public String getSchool() {
+		return school;
+	}
+	public void setSchool(String school) {
+		this.school = school;
+	}
+	public String getShuxing() {
+		return shuxing;
+	}
+	public void setShuxing(String shuxing) {
+		this.shuxing = shuxing;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	public String getBuffId() {
+		return BuffId;
+	}
+	public void setBuffId(String buffId) {
+		BuffId = buffId;
+	}
+	public String getBufferLevel() {
+		return BufferLevel;
+	}
+	public void setBufferLevel(String bufferLevel) {
+		BufferLevel = bufferLevel;
+	}
+	public String getEffect() {
+		return effect;
+	}
+	public void setEffect(String effect) {
+		this.effect = effect;
+	}
 	public String getLimitPercent() {
 		return LimitPercent;
 	}
@@ -117,6 +165,6 @@ public class NeiGong {
 		return getStrAdd()+";"+getDexAdd()+";"+getIngAdd()+";"+getSpiAdd()+";"+getStaAdd()+";\n"+
 				getStrAddE()+";"+getDexAddE()+";"+getIngAddE()+";"+getSpiAddE()+";"+getStaAddE()+"\n"+
 				getHP()+";"+getMP()+";"+getParry()+";"+getMagicDef()+"\n"+
-				getFaculty();
+				getFaculty()+"\n"+getEffect();
 	}
 }
